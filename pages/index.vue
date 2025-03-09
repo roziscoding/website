@@ -46,7 +46,9 @@ const bio = computed(() => bioCopies[language.value])
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
+    justify-content: center;
     width: 100%;
+    height: 100%;
     padding-left: 40px;
     padding-right: 40px;
 }
@@ -58,6 +60,7 @@ const bio = computed(() => bioCopies[language.value])
 #links-container>* {
     flex-basis: 50%;
 }
+
 
 .avatar {
     margin-top: 40px;
@@ -104,5 +107,11 @@ footer {
 
 main {
     min-height: calc(100vh - 100px);
+}
+
+@media only screen and (max-width : 730px) {
+    #links-container {
+        flex-direction: column;
+    }
 }
 </style>
