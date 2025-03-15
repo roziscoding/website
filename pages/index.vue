@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Analytics } from '@vercel/analytics/nuxt'
 import { links } from '~/shared/link'
 
 const language = useState<'pt' | 'en'>('language', () => 'pt')
@@ -13,6 +14,7 @@ const bio = computed(() => bioCopies[language.value])
 
 <template>
   <main class="flex flex-col justify-center items-center container gap-10 mx-auto mt-10">
+    <Analytics />
     <img
       id="avatar"
       src="https://gravatar.com/avatar/77dfdf45d13a8352770cf6b1938d3b07?s=400&d=robohash&r=x"
