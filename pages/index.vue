@@ -17,7 +17,7 @@ const bio = computed(() => bioCopies[language.value])
     <Analytics />
     <img
       id="avatar"
-      src="https://gravatar.com/avatar/77dfdf45d13a8352770cf6b1938d3b07?s=400&d=robohash&r=x"
+      src="/avatar.png"
       alt="Roz.Ninja"
       class="w-60 border-4 border-white border-solid"
     >
