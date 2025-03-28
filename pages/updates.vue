@@ -1,6 +1,7 @@
 <script setup lang="ts">
 definePageMeta({
   layout: 'grey',
+  title: 'Atualizações',
 })
 
 const url = 'https://public.api.bsky.app/xrpc/app.bsky.feed.searchPosts?q=healthUpdate&author=roz.ninja'
