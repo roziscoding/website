@@ -44,7 +44,7 @@ setInterval(doRefresh, 1000)
         Informações sobre meu estado de saúde<br>
       </p>
     </header>
-    <main class="mx-24 flex flex-col gap-4">
+    <main class="md:mx-24 flex flex-col gap-4">
       <div class="status-indicator text-center">
         <p v-if="status === 'pending'" class="nes-text is-warning">
           Atualizando...
