@@ -41,7 +41,7 @@ setInterval(doRefresh, 1000)
         Updates
       </h1>
       <p class="nes-text is-disabled text-center pb-4">
-        Informações sobre meu estado de saúde<br>
+        Informações sobre o estado de saúde do Roz<br>
       </p>
     </header>
     <main class="md:mx-24 flex flex-col gap-4">
