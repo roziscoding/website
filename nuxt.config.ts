@@ -22,8 +22,8 @@ export default defineNuxtConfig({
   },
   modules: ['@nuxtjs/tailwindcss', '@vite-pwa/nuxt'],
   pwa: {
-    srcDir: 'public',
-    filename: 'sw.ts',
+    srcDir: '.',
+    filename: 'service-worker.ts',
     strategies: 'injectManifest',
     injectRegister: false,
     manifest: false,
