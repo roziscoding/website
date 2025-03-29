@@ -34,12 +34,12 @@ function enrichPost(post: Post): EnrichedPost {
       ...post.record,
       text: post.record.text.replace('#healthUpdate', '').replace(/lkpc:\d+/, ''),
     },
-    count,
+    count: count ? Number(count) : undefined,
   }
 }
 
-const { data: posts, status, error, refresh } = useFetch<{ posts: Post[] }>(url, {
-  transform: data => data.posts.map(enrichPost),
+const { data: posts, status, error, refresh } = useFetch<{ posts: EnrichedPost[] }>(url, {
+  transform: data => ({ posts: data.posts.map(enrichPost) }),
   immediate: true,
 })
 
@@ -74,7 +74,7 @@ setInterval(doRefresh, 1000)
 // This function is needed because Chrome doesn't accept a base64 encoded string
 // as value for applicationServerKey in pushManager.subscribe yet
 // https://bugs.chromium.org/p/chromium/issues/detail?id=802280
-function urlBase64ToUint8Array(base64String) {
+function urlBase64ToUint8Array(base64String: string) {
   const padding = '='.repeat((4 - base64String.length % 4) % 4)
   const base64 = (base64String + padding)
     .replace(/-/g, '+')
@@ -123,7 +123,7 @@ async function getSubscription() {
   return subscription
 }
 
-async function enablePush(subscription: PushSubscription) {
+async function enablePush(subscription?: PushSubscription) {
   if (!subscription) {
     enableNotifications.value = false
     return
@@ -144,7 +144,7 @@ async function enablePush(subscription: PushSubscription) {
   }
 }
 
-async function disablePush(subscription: PushSubscription) {
+async function disablePush(subscription?: PushSubscription) {
   if (!subscription) {
     enableNotifications.value = false
     return
@@ -215,13 +215,13 @@ function getTitle(post: EnrichedPost) {
           {{ notificationsButtonText }}
         </button>
       </div>
-      <article v-for="post of posts" :id="post.cid" :key="post.cid" class="nes-container is-rounded is-dark with-title">
+      <article v-for="post of posts?.posts" :id="post.cid" :key="post.cid" class="nes-container is-rounded is-dark with-title">
         <span class="title">{{ getTitle(post) }}</span>
         <p>
           {{ post.record.text }}
         </p>
       </article>
-      <article v-if="!posts?.length" class="is-rounded is-dark text-center">
+      <article v-if="!posts?.posts.length" class="is-rounded is-dark text-center">
         <i class="nes-smartphone is-large" />
         <p class="my-4 nes-text is-error">
           Nenhuma atualização encontrada
