@@ -216,7 +216,7 @@ function getTitle(post: EnrichedPost) {
         </button>
       </div>
       <article v-for="post of posts?.posts" :id="post.cid" :key="post.cid" class="nes-container is-rounded is-dark with-title">
-        <span class="title">{{ getTitle(post) }}</span>
+        <a :href="`#${post.cid}`" class="title">{{ getTitle(post) }}</a>
         <p>
           {{ post.record.text }}
         </p>
