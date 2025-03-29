@@ -57,7 +57,7 @@ setInterval(doRefresh, 1000)
         Informações sobre o estado de saúde do Roz<br>
       </p>
     </header>
-    <main class="md:mx-24 flex flex-col gap-4">
+    <main class="md:mx-24 flex flex-col gap-4 text-xs md:text-base">
       <div class="status-indicator text-center">
         <p v-if="status === 'pending'" class="nes-text is-warning">
           Atualizando...
@@ -73,7 +73,7 @@ setInterval(doRefresh, 1000)
         </p>
       </div>
       <article v-for="post of posts" :key="post.cid" class="nes-container is-rounded is-dark with-title">
-        <span class="title">{{ new Date(post.record.createdAt).toLocaleString() }}{{ post.count ? ` - ${post.count}k plaquetas` : '' }}</span>
+        <span class="title">{{ new Date(post.record.createdAt).toLocaleString('pt', { hour12: false, day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) }}{{ post.count ? ` - ${post.count}k plaquetas` : '' }}</span>
         <p>
           {{ post.record.text }}
         </p>
