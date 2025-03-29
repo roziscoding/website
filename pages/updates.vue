@@ -38,17 +38,18 @@ function enrichPost(post: Post): EnrichedPost {
   }
 }
 
-const { data: posts, status, error, refresh } = useFetch<{ posts: EnrichedPost[] }>(url, {
+const { data: _posts, status, error, refresh } = useFetch<{ posts: EnrichedPost[] }>(url, {
   transform: data => ({ posts: data.posts.map(enrichPost) }),
   immediate: true,
 })
+const posts = computed(() => _posts.value?.posts ?? [])
 
 const channel = new BroadcastChannel('sw-messages')
 
 const REFRESH_INTERVAL = 60_000 // 1 minute
 const lastRefresh = ref(Date.now())
 const diff = ref(0)
-const seconds = computed(() => Math.floor(diff.value / 1000))
+const seconds = computed(() => Math.ceil((REFRESH_INTERVAL - diff.value) / 1000))
 
 function doRefresh(force = false) {
   diff.value = Date.now() - lastRefresh.value
@@ -208,20 +209,20 @@ function getTitle(post: EnrichedPost) {
         <p v-else-if="status === 'error'" class="nes-text is-error">
           {{ error }}
         </p>
-        <p v-else class="nes-text is-success">
-          Atualizado a {{ seconds }} segundo{{ seconds !== 1 ? 's' : '' }}.
+        <p v-else class="nes-text is-success" @click="doRefresh(true)">
+          Atualizando em {{ seconds }} segundo{{ seconds !== 1 ? 's' : '' }}.
         </p>
         <button v-if="serviceWorkerReady" type="button" class="nes-btn is-warning mt-4" @click="toggleNotifications">
           {{ notificationsButtonText }}
         </button>
       </div>
-      <article v-for="post of posts?.posts" :id="post.cid" :key="post.cid" class="nes-container is-rounded is-dark with-title">
+      <article v-for="post of posts" :id="post.cid" :key="post.cid" class="nes-container is-rounded is-dark with-title">
         <a :href="`#${post.cid}`" class="title">{{ getTitle(post) }}</a>
         <p>
           {{ post.record.text }}
         </p>
       </article>
-      <article v-if="!posts?.posts.length" class="is-rounded is-dark text-center">
+      <article v-if="!posts" class="is-rounded is-dark text-center">
         <i class="nes-smartphone is-large" />
         <p class="my-4 nes-text is-error">
           Nenhuma atualização encontrada
