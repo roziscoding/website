@@ -8,9 +8,11 @@ const runtimeConfig = useRuntimeConfig()
 const url = 'https://public.api.bsky.app/xrpc/app.bsky.feed.searchPosts?q=healthUpdate&author=roz.ninja'
 const serviceWorkerReady = ref(false)
 onMounted(() => {
-  navigator.serviceWorker.ready.then(() => {
-    serviceWorkerReady.value = true
-  })
+  if (typeof NotificationEvent !== 'undefined') {
+    navigator.serviceWorker.ready.then(() => {
+      serviceWorkerReady.value = true
+    })
+  }
 })
 
 interface Post {
