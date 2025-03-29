@@ -10,7 +10,8 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "dev:certs": "./scripts/gen-certs.sh"
   },
   "dependencies": {
     "@nuxtjs/tailwindcss": "6.13.2",
