@@ -14,8 +14,21 @@ interface Post {
   }
 }
 
+function enrichPost(post: Post): Post & { count?: number } {
+  const count = post.record.text.match(/lkpc:(?<count>\d+)/)?.groups?.count
+
+  return {
+    ...post,
+    record: {
+      ...post.record,
+      text: post.record.text.replace('#healthUpdate', '').replace(/lkpc:\d+/, ''),
+    },
+    count,
+  }
+}
+
 const { data: posts, status, error, refresh } = useFetch<{ posts: Post[] }>(url, {
-  transform: data => data.posts.map(post => ({ ...post, record: { ...post.record, text: post.record.text.replace('#healthUpdate', '') } })),
+  transform: data => data.posts.map(enrichPost),
   immediate: true,
 })
 
@@ -60,7 +73,7 @@ setInterval(doRefresh, 1000)
         </p>
       </div>
       <article v-for="post of posts" :key="post.cid" class="nes-container is-rounded is-dark with-title">
-        <span class="title">{{ new Date(post.record.createdAt).toLocaleString() }}</span>
+        <span class="title">{{ new Date(post.record.createdAt).toLocaleString() }}{{ post.count ? ` - ${post.count}k plaquetas` : '' }}</span>
         <p>
           {{ post.record.text }}
         </p>
