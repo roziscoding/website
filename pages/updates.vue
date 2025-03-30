@@ -7,7 +7,30 @@ const runtimeConfig = useRuntimeConfig()
 
 const url = 'https://public.api.bsky.app/xrpc/app.bsky.feed.searchPosts?q=healthUpdate&author=roz.ninja'
 const serviceWorkerReady = ref(false)
+const route = useRoute()
+const highlightedPost = computed(() => route.hash?.replace('#', ''))
+
+function isHighlighted(id: string) {
+  return id === highlightedPost.value
+}
+
+function scrollHighlightIntoView() {
+  if (!highlightedPost.value)
+    return
+
+  const el = document.getElementById(highlightedPost.value)
+  if (!el)
+    return
+  el.scrollIntoView({
+    behavior: 'smooth',
+    block: 'center',
+  })
+}
+
+watch(highlightedPost, scrollHighlightIntoView)
+
 onMounted(() => {
+  scrollHighlightIntoView()
   if (typeof Notification !== 'undefined') {
     navigator.serviceWorker.ready.then(() => {
       serviceWorkerReady.value = true
@@ -216,8 +239,8 @@ function getTitle(post: EnrichedPost) {
           {{ notificationsButtonText }}
         </button>
       </div>
-      <article v-for="post of posts" :id="post.cid" :key="post.cid" class="nes-container is-rounded is-dark with-title">
-        <a :href="`#${post.cid}`" class="title">{{ getTitle(post) }}</a>
+      <article v-for="post of posts" :id="post.cid" :key="post.cid" class="is-dark nes-container is-rounded with-title">
+        <a :class="isHighlighted(post.cid) ? ['!bg-white', '!text-black'] : []" :href="`#${post.cid}`" class="title">{{ getTitle(post) }}</a>
         <p>
           {{ post.record.text }}
         </p>
