@@ -27,8 +27,6 @@ function scrollHighlightIntoView() {
   })
 }
 
-watch(highlightedPost, scrollHighlightIntoView)
-
 onMounted(() => {
   scrollHighlightIntoView()
   if (typeof Notification !== 'undefined') {
@@ -66,6 +64,8 @@ const { data: _posts, status, error, refresh } = useFetch<{ posts: EnrichedPost[
   immediate: true,
 })
 const posts = computed(() => _posts.value?.posts ?? [])
+
+watch([posts, highlightedPost], scrollHighlightIntoView)
 
 const channel = new BroadcastChannel('sw-messages')
 
