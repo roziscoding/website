@@ -10,6 +10,12 @@ const bioCopies = {
 }
 
 const bio = computed(() => bioCopies[language.value])
+
+defineOgImageComponent('Regular', {
+  title: 'Rogério Munhoz',
+  description: bioCopies.pt,
+  image: '/avatar.png',
+})
 </script>
 
 <template>

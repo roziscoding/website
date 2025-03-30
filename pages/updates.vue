@@ -10,6 +10,13 @@ const serviceWorkerReady = ref(false)
 const route = useRoute()
 const highlightedPost = computed(() => route.hash?.replace('#', ''))
 
+defineOgImageComponent('Regular', {
+  title: 'Updates',
+  image: '/avatar.png',
+  description: 'Informações sobre o estado de saúde do roz',
+  subheader: 'Atualizado geralmente por volta das 12h',
+})
+
 function isHighlighted(id: string) {
   return id === highlightedPost.value
 }

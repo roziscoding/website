@@ -20,7 +20,7 @@ export default defineNuxtConfig({
       pushBaseUrl: process.env.PUSH_BASE_URL,
     },
   },
-  modules: ['@nuxtjs/tailwindcss', '@vite-pwa/nuxt'],
+  modules: ['@nuxtjs/tailwindcss', '@vite-pwa/nuxt', 'nuxt-og-image'],
   pwa: {
     srcDir: '.',
     filename: 'service-worker.ts',
@@ -40,5 +40,8 @@ export default defineNuxtConfig({
       cert: './localhost.crt',
       key: './localhost.key',
     },
+  },
+  ogImage: {
+    fonts: ['Press+Start+2P'],
   },
 })

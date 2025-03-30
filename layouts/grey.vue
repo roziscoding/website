@@ -1,11 +1,10 @@
 <template>
-    <template>
-      <div>
-        <slot />
-      </div>
-    </template>
+  <div>
+    <slot />
+  </div>
 </template>
-<style >
+
+<style>
 html,
 body
 {
