@@ -2,7 +2,9 @@
 import { enrichPost, usePosts } from '~/posts';
 
 const { data: _posts } = await usePosts()
+
 const posts = computed(() => (_posts.value?.posts ?? []).map(enrichPost))
+
 watch(posts, (value) => {
   const post = value?.shift()
   if (!post) return navigateTo('/updates')

@@ -8,6 +8,7 @@ export interface Post {
 }
 
 export function enrichPost(post: Post) {
+  if (!post) return post
   const count = post.record.text.match(/lkpc:(?<count>\d+)/)?.groups?.count
 
   return {

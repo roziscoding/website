@@ -22,10 +22,6 @@ const nextPost = computed(() => posts.value[postIndex.value - 1])
 const firstPost = computed(() => posts.value[posts.value.length - 1])
 const lastPost = computed(() => posts.value[0])
 
-defineOgImageComponent('LargeText', {
-  title: post.value.record.createdAt.toLocaleString('pt-br', { timeStyle: 'short', dateStyle: 'short' }),
-  text: post.value.record.text
-})
 
 watchEffect(() => {
   if (!post.value && status.value !== 'pending') {
@@ -42,9 +38,18 @@ function goToPost(post: (EnrichedPost | undefined) | Ref<EnrichedPost | undefine
   const to = { name: 'updates-updateId', params: { updateId: postValue.recordId } }
   navigateTo(to)
 }
+const pageTitle = computed(() => getTitle(post.value, true))
+useSeoMeta({
+  title: pageTitle.value,
+  ogTitle: `Updates do Roz - ${pageTitle.value}`,
+  description: post.value.record.text,
+  ogDescription: post.value.record.text,
+  twitterCard: 'summary_large_image',
+})
 
-useHead({
-  title: getTitle(post.value, true),
+defineOgImageComponent('LargeText', {
+  title: post.value.record.createdAt.toLocaleString('pt-br', { timeStyle: 'short', dateStyle: 'short' }),
+  text: post.value.record.text
 })
 </script>
 
