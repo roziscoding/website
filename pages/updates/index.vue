@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { EnrichedPost } from '~/posts'
-import { enrichPost, getTitle, usePosts } from '~/posts'
+import type { EnrichedPost } from '~/composables/posts'
+import { enrichPost, getTitle, usePosts } from '~/composables/posts'
 
 definePageMeta({
   layout: 'grey',

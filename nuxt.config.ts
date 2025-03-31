@@ -13,6 +13,9 @@ export default defineNuxtConfig({
           href: 'https://fonts.googleapis.com/css?family=Press+Start+2P',
         },
       ],
+      meta: [
+        { name: 'viewport', content: 'width=device-width, user-scalable=no' },
+      ],
     },
   },
   runtimeConfig: {
