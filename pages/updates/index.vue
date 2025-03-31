@@ -14,7 +14,7 @@ const highlightedPost = computed(() => route.hash?.replace('#', ''))
 
 defineOgImageComponent('Regular', {
   title: 'Updates do Roz',
-  image: '/avatar.png',
+  image: 'https://roz.ninja/avatar.png',
   description: 'Informações sobre o estado de saúde do roz',
   subheader: 'Atualizado geralmente por volta das 12h',
 })
