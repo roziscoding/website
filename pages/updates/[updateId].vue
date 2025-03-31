@@ -51,7 +51,7 @@ useSeoMeta({
 })
 
 defineOgImageComponent('LargeText', {
-  title: post.value.record.createdAt.toLocaleString('pt-br', { timeStyle: 'short', dateStyle: 'short' }),
+  title: post.value.record.createdAt.toLocaleString('pt-br', { timeStyle: 'short', dateStyle: 'short', timeZone: 'America/Sao_Paulo' }),
   subtitle: post.value.count ? `${post.value.count}k plaquetas` : undefined,
   subtitleColor: post.value.count ? plateletColor.value : undefined,
   text: post.value.record.text,
@@ -65,7 +65,7 @@ defineOgImageComponent('LargeText', {
         Update {{ posts.length - postIndex }} de {{ posts.length }}
       </h1>
       <h1 class="nes-text is-warning text-center">
-        Postado em {{ post.record.createdAt.toLocaleString('pt-br', { dateStyle: 'long', timeStyle: 'short' }) }}
+        Postado em {{ post.record.createdAt.toLocaleString('pt-br', { dateStyle: 'long', timeStyle: 'short', timeZone: 'America/Sao_Paulo' }) }}
       </h1>
       <h2 v-if="post.count" class="nes-text" :class="`is-${plateletColor}`">
         {{ post.count }}k plaquetas

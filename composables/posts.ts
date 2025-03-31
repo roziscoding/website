@@ -8,7 +8,8 @@ export interface Post {
 }
 
 export function enrichPost(post: Post) {
-  if (!post) return post
+  if (!post)
+    return post
   const count = post.record.text.match(/lkpc:(?<count>\d+)/)?.groups?.count
 
   return {
@@ -28,12 +29,13 @@ export type EnrichedPost = ReturnType<typeof enrichPost>
 export function getTitle(post: EnrichedPost | undefined, hideCount = false) {
   if (!post)
     return 'Update não encontrado'
-  const formated = new Date(post.record.createdAt).toLocaleString('pt', {
+  const formated = new Date(post.record.createdAt).toLocaleString(new Intl.Locale('pt-BR'), {
     hour12: false,
     day: '2-digit',
     month: '2-digit',
     hour: '2-digit',
     minute: '2-digit',
+    timeZone: 'America/Sao_Paulo',
   })
 
   const count = post.count && !hideCount ? ` - ${post.count}k plaquetas` : ''
