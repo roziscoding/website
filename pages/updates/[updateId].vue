@@ -17,6 +17,13 @@ const previousPost = computed(() => posts.value[postIndex.value + 1])
 const nextPost = computed(() => posts.value[postIndex.value - 1])
 const firstPost = computed(() => posts.value[posts.value.length - 1])
 const lastPost = computed(() => posts.value[0])
+const plateletColor = computed(() => post.value.count
+  ? post.value.count <= 10
+    ? 'error'
+    : post.value.count <= 20
+      ? 'warning'
+      : 'success'
+  : undefined)
 
 watchEffect(() => {
   if (!post.value && status.value !== 'pending') {
@@ -45,6 +52,8 @@ useSeoMeta({
 
 defineOgImageComponent('LargeText', {
   title: post.value.record.createdAt.toLocaleString('pt-br', { timeStyle: 'short', dateStyle: 'short' }),
+  subtitle: post.value.count ? `${post.value.count}k plaquetas` : undefined,
+  subtitleColor: post.value.count ? plateletColor.value : undefined,
   text: post.value.record.text,
 })
 </script>
@@ -58,7 +67,7 @@ defineOgImageComponent('LargeText', {
       <h1 class="nes-text is-warning text-center">
         Postado em {{ post.record.createdAt.toLocaleString('pt-br', { dateStyle: 'long', timeStyle: 'short' }) }}
       </h1>
-      <h2 v-if="post.count" class="nes-text" :class="{ 'is-error': post.count <= 10, 'is-warning': post.count <= 20, 'is-success': post.count > 20 }">
+      <h2 v-if="post.count" class="nes-text" :class="`is-${plateletColor}`">
         {{ post.count }}k plaquetas
       </h2>
       <h2 v-else>
