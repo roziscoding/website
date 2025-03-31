@@ -45,7 +45,7 @@ onMounted(() => {
   }
 })
 
-const { data:_posts, status, error, refresh } = await usePosts()
+const { data: _posts, status, error, refresh } = await usePosts()
 const posts = computed(() => (_posts.value?.posts ?? []).map(enrichPost))
 
 watch([posts, highlightedPost], scrollHighlightIntoView)
@@ -71,9 +71,6 @@ channel.addEventListener('message', async (event) => {
     return
 
   await doRefresh(true)
-  const link = document.createElement('a')
-  link.setAttribute('href', event.data.postUrl)
-  link.click()
 })
 
 setInterval(doRefresh, 1000)
