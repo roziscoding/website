@@ -6,7 +6,7 @@ export default defineNuxtConfig({
       link: [
         {
           rel: 'stylesheet',
-          href: 'https://unpkg.com/nes.css/css/nes.css',
+          href: 'https://unpkg.com/nes.css@2.3.0/css/nes.css',
         },
         {
           rel: 'stylesheet',

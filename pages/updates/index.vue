@@ -1,11 +1,13 @@
 <script setup lang="ts">
+import type { EnrichedPost } from '~/posts'
+import { enrichPost, getTitle, usePosts } from '~/posts'
+
 definePageMeta({
   layout: 'grey',
   title: 'Atualizações',
 })
 const runtimeConfig = useRuntimeConfig()
 
-const url = 'https://public.api.bsky.app/xrpc/app.bsky.feed.searchPosts?q=healthUpdate&author=roz.ninja'
 const serviceWorkerReady = ref(false)
 const route = useRoute()
 const highlightedPost = computed(() => route.hash?.replace('#', ''))
@@ -43,34 +45,8 @@ onMounted(() => {
   }
 })
 
-interface Post {
-  cid: string
-  record: {
-    createdAt: string
-    text: string
-  }
-}
-
-type EnrichedPost = Post & { count?: number }
-
-function enrichPost(post: Post): EnrichedPost {
-  const count = post.record.text.match(/lkpc:(?<count>\d+)/)?.groups?.count
-
-  return {
-    ...post,
-    record: {
-      ...post.record,
-      text: post.record.text.replace('#healthUpdate', '').replace(/lkpc:\d+/, ''),
-    },
-    count: count ? Number(count) : undefined,
-  }
-}
-
-const { data: _posts, status, error, refresh } = useFetch<{ posts: EnrichedPost[] }>(url, {
-  transform: data => ({ posts: data.posts.map(enrichPost) }),
-  immediate: true,
-})
-const posts = computed(() => _posts.value?.posts ?? [])
+const { data:_posts, status, error, refresh } = await usePosts()
+const posts = computed(() => (_posts.value?.posts ?? []).map(enrichPost))
 
 watch([posts, highlightedPost], scrollHighlightIntoView)
 
@@ -205,20 +181,6 @@ async function toggleNotifications() {
 
   enablePush(subscription)
 }
-
-function getTitle(post: EnrichedPost) {
-  const formated = new Date(post.record.createdAt).toLocaleString('pt', {
-    hour12: false,
-    day: '2-digit',
-    month: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-  })
-
-  const count = post.count ? ` - ${post.count}k plaquetas` : ''
-
-  return `${formated}${count}`
-}
 </script>
 
 <template>
@@ -246,8 +208,8 @@ function getTitle(post: EnrichedPost) {
           {{ notificationsButtonText }}
         </button>
       </div>
-      <article v-for="post of posts" :id="post.cid" :key="post.cid" class="is-dark nes-container is-rounded with-title">
-        <a :class="isHighlighted(post.cid) ? ['!bg-white', '!text-black'] : []" :href="`#${post.cid}`" class="title">{{ getTitle(post) }}</a>
+      <article v-for="post of posts" :id="post.recordId" :key="post.recordId" class="is-dark nes-container is-rounded with-title">
+        <a :class="isHighlighted(post.recordId) ? ['!bg-white', '!text-black'] : []" :href="`/updates/${post.recordId}`" class="title">{{ getTitle(post) }}</a>
         <p>
           {{ post.record.text }}
         </p>
