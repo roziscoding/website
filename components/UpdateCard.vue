@@ -63,7 +63,7 @@ async function toggleLike() {
         </div>
       </template>
       {{ post.record.text }}
-      <button class="nes-btn" @click="toggleLike">
+      <button class="nes-btn flex flex-row items-center gap-4" @click="toggleLike">
         <i class="nes-icon heart" :class="{ 'is-empty': !isLiked }" /> {{ postLikes }}
       </button>
     </div>
