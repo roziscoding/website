@@ -23,7 +23,13 @@ export default defineNuxtConfig({
       pushBaseUrl: process.env.PUSH_BASE_URL,
     },
   },
-  modules: ['@nuxtjs/tailwindcss', '@vite-pwa/nuxt', 'nuxt-og-image'],
+  modules: [
+    '@nuxtjs/tailwindcss',
+    '@vite-pwa/nuxt',
+    'nuxt-og-image',
+    '@pinia/nuxt',
+    'pinia-plugin-persistedstate/nuxt',
+  ],
   pwa: {
     srcDir: '.',
     filename: 'service-worker.ts',

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { EnrichedPost } from '~/composables/posts'
+import { useLikeStore } from '~/stores/likedPosts'
 
 const props = withDefaults(defineProps<{
   post: EnrichedPost
@@ -33,6 +34,16 @@ const articleClasses = computed(() => {
 
   return classes
 })
+const likeStore = useLikeStore()
+const isLiked = computed(() => likeStore.isLiked(props.post.recordId))
+
+function toggleLike() {
+  if (isLiked.value) {
+    return likeStore.dislike(props.post.recordId)
+  }
+
+  likeStore.like(props.post.recordId)
+}
 </script>
 
 <template>
@@ -49,6 +60,9 @@ const articleClasses = computed(() => {
         </div>
       </template>
       {{ post.record.text }}
+      <button class="nes-btn" @click="toggleLike">
+        <i class="nes-icon heart" :class="{ 'is-empty': !isLiked }" />
+      </button>
     </div>
   </article>
 </template>
