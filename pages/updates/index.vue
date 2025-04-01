@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { EnrichedPost } from '~/composables/posts'
 import { enrichPost, getTitle, usePosts } from '~/composables/posts'
 
 definePageMeta({
@@ -18,10 +17,6 @@ defineOgImageComponent('Regular', {
   description: 'Informações sobre o estado de saúde do roz',
   subheader: 'Atualizado geralmente por volta das 12h',
 })
-
-function isHighlighted(id: string) {
-  return id === highlightedPost.value
-}
 
 function scrollHighlightIntoView() {
   if (!highlightedPost.value)
@@ -191,26 +186,49 @@ async function toggleNotifications() {
       </p>
     </header>
     <main class="md:mx-24 flex flex-col gap-4 text-xs md:text-base">
-      <div class="status-indicator text-center">
-        <p v-if="status === 'pending'" class="nes-text is-warning">
-          Atualizando...
-        </p>
-        <p v-else-if="status === 'error'" class="nes-text is-error">
-          {{ error }}
-        </p>
-        <p v-else class="nes-text is-success" @click="doRefresh(true)">
+      <div class="text-center">
+        <p class="nes-text is-success" @click="doRefresh(true)">
           Atualizando em {{ seconds }} segundo{{ seconds !== 1 ? 's' : '' }}.
         </p>
-        <button v-if="serviceWorkerReady" type="button" class="nes-btn is-warning mt-4" @click="toggleNotifications">
+        <button
+          type="button"
+          class="nes-btn is-warning mt-4"
+          :class="{ 'is-disabled': !serviceWorkerReady }"
+          :disabled="!serviceWorkerReady"
+          :title="serviceWorkerReady ? undefined : 'Notificações não suportadas neste dispositivo'"
+          @click="toggleNotifications"
+        >
           {{ notificationsButtonText }}
         </button>
       </div>
-      <article v-for="post of posts" :id="post.recordId" :key="post.recordId" class="is-dark nes-container is-rounded with-title">
-        <a :class="isHighlighted(post.recordId) ? ['!bg-white', '!text-black'] : []" :href="`/updates/${post.recordId}`" class="title">{{ getTitle(post) }}</a>
-        <p>
-          {{ post.record.text }}
-        </p>
-      </article>
+      <LoadingContainer :status dark>
+        <template #pending>
+          <p class="text-center nes-text is-warning">
+            Carregando updates...
+          </p>
+        </template>
+
+        <template #error>
+          <p class="text-center nes-text is-error">
+            {{ error }}
+          </p>
+        </template>
+
+        <template #default>
+          <div class="flex flex-col gap-4">
+            <UpdateCard
+              v-for="post of posts"
+              :id="post.recordId"
+              :key="post.recordId"
+              dark
+              rounded
+              :post
+              :title="getTitle(post)"
+              :title-link="`/updates/${post.recordId}`"
+            />
+          </div>
+        </template>
+      </LoadingContainer>
       <article v-if="!posts" class="is-rounded is-dark text-center">
         <i class="nes-smartphone is-large" />
         <p class="my-4 nes-text is-error">

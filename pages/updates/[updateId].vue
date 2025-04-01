@@ -74,17 +74,17 @@ defineOgImageComponent('LargeText', {
         &nbsp;
       </h2>
     </div>
-    <div class="nes-container is-dark" :class="{ 'text-center': ['error', 'pending'].includes(status) }">
-      <article v-if="status === 'success'" class="text-sm md:text-base">
-        {{ post?.record.text }}
-      </article>
-      <template v-else-if="status === 'pending'">
-        <span class="nes-text is-warning">Carregando update...</span>
+    <LoadingContainer :status="status" dark>
+      <template #error>
+        <span class="nes-text text-center is-error">{{ error }}</span>
       </template>
-      <template v-else-if="status === 'error'">
-        <span class="nes-text is-error">{{ error }}</span>
+
+      <template #pending>
+        <span class="nes-text text-center is-warning">Carregando update...</span>
       </template>
-    </div>
+
+      <UpdateCard :post="post" />
+    </LoadingContainer>
     <div class="flex flex-row items-center gap-2">
       <button class="nes-btn" title="Primeiro Update" :class="!previousPost ? ['is-disabled', 'cursor-not-allowed'] : ['is-primary']" :disabled="!previousPost" @click="() => goToPost(firstPost)">
         {{ "<<" }}<span class="hidden md:inline"> Primeiro</span>

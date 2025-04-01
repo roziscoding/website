@@ -1,3 +1,4 @@
+export const EMOJI_REGEX = /([\u2700-\u27BF\uE000-\uF8FF\u2011-\u26FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|\uD83E[\uDD10-\uDDFF])/g
 export interface Post {
   cid: string
   uri: string
@@ -5,6 +6,23 @@ export interface Post {
     createdAt: string
     text: string
   }
+  embed?: {
+    media: {
+      images: [{
+        alt?: string
+        thumb: string
+        fullsize: string
+        aspectRatio: {
+          height: number
+          width: number
+        }
+      }]
+    }
+  }
+}
+
+function srtipPatterns(str: string, patterns: Array<RegExp | string>) {
+  return patterns.reduce((result, pattern) => (result as string).replace(pattern, ''), str)
 }
 
 export function enrichPost(post: Post) {
@@ -18,7 +36,10 @@ export function enrichPost(post: Post) {
     record: {
       ...post.record,
       createdAt: new Date(post.record.createdAt),
-      text: post.record.text.replace('#healthUpdate', '').replace(/lkpc:\d+/, ''),
+      text: srtipPatterns(
+        post.record.text,
+        ['#healthUpdate', /lkpc:\d+/, EMOJI_REGEX],
+      ),
     },
     count: count ? Number(count) : undefined,
   }
@@ -46,7 +67,7 @@ export function getTitle(post: EnrichedPost | undefined, hideCount = false) {
 export function usePosts() {
   const fetchUrl = 'https://public.api.bsky.app/xrpc/app.bsky.feed.searchPosts?q=healthUpdate&author=roz.ninja'
 
-  return useFetch<{ posts: Post[] }>(fetchUrl, {
+  return useAsyncData<{ posts: Post[] }>('posts', () => $fetch(fetchUrl), {
     immediate: true,
   })
 }
