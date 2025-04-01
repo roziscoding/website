@@ -36,17 +36,19 @@ const articleClasses = computed(() => {
 </script>
 
 <template>
-  <article class="nes-container is-dark text-sm md:text-base " :class="articleClasses">
+  <article class="nes-container is-dark text-sm md:text-base" :class="articleClasses">
     <component :is="titleLink ? 'a' : 'span'" v-if="title" :href="titleLink" class="title self-start" :target="newTab ? '_blank' : undefined">
       {{ title }}
     </component>
-    <template v-if="images && images.length">
-      <div class="flex flex-col md:flex-row gap-4">
-        <div v-for="image in images" :key="image.thumb" class="border-4 border-white max-h-[45vh]">
-          <img class="max-h-[40vh]" :src="image.thumb">
+    <div class="flex flex-col gap-4 items-center">
+      <template v-if="images && images.length">
+        <div class="flex flex-col md:flex-row gap-4">
+          <div v-for="image in images" :key="image.thumb" class="border-4 border-white ">
+            <img class="max-h-[40vh] md:max-h-[500px] md:max-w-[500px]" :src="image.thumb">
+          </div>
         </div>
-      </div>
-    </template>
-    {{ post.record.text }}
+      </template>
+      {{ post.record.text }}
+    </div>
   </article>
 </template>
