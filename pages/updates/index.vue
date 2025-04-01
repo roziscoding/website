@@ -5,8 +5,9 @@ definePageMeta({
   layout: 'grey',
   title: 'Atualizações',
 })
-const runtimeConfig = useRuntimeConfig()
 
+const runtimeConfig = useRuntimeConfig()
+const likeStore = useLikeStore()
 const serviceWorkerReady = ref(false)
 const route = useRoute()
 const highlightedPost = computed(() => route.hash?.replace('#', ''))
@@ -52,13 +53,16 @@ const lastRefresh = ref(Date.now())
 const diff = ref(0)
 const seconds = computed(() => Math.ceil((REFRESH_INTERVAL - diff.value) / 1000))
 
-function doRefresh(force = false) {
+async function doRefresh(force = false) {
   diff.value = Date.now() - lastRefresh.value
+
   if (!force && diff.value < REFRESH_INTERVAL)
     return
+
   lastRefresh.value = Date.now()
   diff.value = 0
-  refresh()
+
+  await Promise.all([refresh(), likeStore.fetchLikes()])
 }
 
 channel.addEventListener('message', async (event) => {
