@@ -2,6 +2,7 @@
 import { Analytics } from '@vercel/analytics/nuxt'
 import { links } from '~/shared/link'
 
+
 const language = useState<'pt' | 'en'>('language', () => 'pt')
 
 const bioCopies = {

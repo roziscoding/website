@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { EnrichedPost } from '~/composables/posts'
+import { asyncComputed } from '@vueuse/core'
 import { useLikeStore } from '~/stores/likedPosts'
 
 const props = withDefaults(defineProps<{
@@ -35,14 +36,16 @@ const articleClasses = computed(() => {
   return classes
 })
 const likeStore = useLikeStore()
+const { likes } = storeToRefs(likeStore)
 const isLiked = computed(() => likeStore.isLiked(props.post.recordId))
+const postLikes = computed(() => likes.value[props.post.recordId] ?? 0)
 
-function toggleLike() {
+async function toggleLike() {
   if (isLiked.value) {
-    return likeStore.dislike(props.post.recordId)
+    return await likeStore.dislike(props.post.recordId)
   }
 
-  likeStore.like(props.post.recordId)
+  await likeStore.like(props.post.recordId)
 }
 </script>
 
@@ -61,7 +64,7 @@ function toggleLike() {
       </template>
       {{ post.record.text }}
       <button class="nes-btn" @click="toggleLike">
-        <i class="nes-icon heart" :class="{ 'is-empty': !isLiked }" />
+        <i class="nes-icon heart" :class="{ 'is-empty': !isLiked }" /> {{ postLikes }}
       </button>
     </div>
   </article>
