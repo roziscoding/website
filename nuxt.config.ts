@@ -6,7 +6,7 @@ export default defineNuxtConfig({
       link: [
         {
           rel: 'manifest',
-          href: '/manifest.webmanifest',
+          href: '/manifest.json',
         },
         {
           rel: 'stylesheet',
@@ -56,60 +56,11 @@ export default defineNuxtConfig({
     strategies: 'injectManifest',
     injectRegister: 'auto',
     registerType: 'autoUpdate',
-    injectManifest: {
-      injectionPoint: undefined,
-    },
     devOptions: {
       enabled: true,
       type: 'module',
     },
-    manifest: {
-      id: 'roz.ninja',
-      launch_handler: {
-        client_mode: 'auto',
-      },
-      orientation: 'portrait',
-      screenshots: [
-        {
-          src: '/screenshot_desktop.png',
-          sizes: '3600x2008',
-          type: 'image/png',
-        },
-      ],
-      name: 'Updates do Roz',
-      short_name: 'Updates',
-      icons: [
-        {
-          src: '/pwa-192x192.png',
-          sizes: '192x192',
-          type: 'image/png',
-          purpose: 'any',
-        },
-        {
-          src: '/pwa-512x512.png',
-          sizes: '512x512',
-          type: 'image/png',
-          purpose: 'any',
-        },
-        {
-          src: '/pwa-maskable-192x192.png',
-          sizes: '192x192',
-          type: 'image/png',
-          purpose: 'maskable',
-        },
-        {
-          src: '/pwa-maskable-512x512.png',
-          sizes: '512x512',
-          type: 'image/png',
-          purpose: 'maskable',
-        },
-      ],
-      start_url: '/updates',
-      display: 'standalone',
-      background_color: '#212529',
-      theme_color: '#212529',
-      description: 'Updates sobre o estado de saúde do Roz',
-    },
+    manifest: false,
   },
   devServer: {
     https: {
