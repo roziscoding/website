@@ -28,13 +28,13 @@ export default defineNuxtConfig({
         {
           rel: 'mask-icon',
           href: '/mask-icon.svg',
-          color: '#ffffff',
+          color: '#212529',
         },
       ],
       meta: [
         { name: 'viewport', content: 'width=device-width,initial-scale=1' },
         { name: 'description', content: 'Rogério Munhoz' },
-        { name: 'theme-color', content: '#ffffff' },
+        { name: 'theme-color', content: '#212529' },
       ],
     },
   },
