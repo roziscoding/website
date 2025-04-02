@@ -12,13 +12,6 @@ const serviceWorkerReady = ref(false)
 const route = useRoute()
 const highlightedPost = computed(() => route.hash?.replace('#', ''))
 
-defineOgImageComponent('Regular', {
-  title: 'Updates do Roz',
-  image: 'https://roz.ninja/avatar.png',
-  description: 'Informações sobre o estado de saúde do roz',
-  subheader: 'Atualizado geralmente por volta das 12h',
-})
-
 function scrollHighlightIntoView() {
   if (!highlightedPost.value)
     return
@@ -177,6 +170,21 @@ async function toggleNotifications() {
 
   enablePush(subscription)
 }
+
+defineOgImageComponent('Regular', {
+  title: 'Updates do Roz',
+  image: 'https://roz.ninja/avatar.png',
+  description: 'Informações sobre o estado de saúde do roz',
+  subheader: 'Atualizado geralmente por volta das 12h',
+})
+
+useSeoMeta({
+  title: 'Updates do Roz',
+  ogTitle: `Updates do Roz`,
+  description: 'Updates sobre o estado de saúde do Roz',
+  ogDescription: 'Updates sobre o estado de saúde do Roz',
+  twitterCard: 'summary_large_image',
+})
 </script>
 
 <template>

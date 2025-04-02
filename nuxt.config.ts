@@ -12,9 +12,25 @@ export default defineNuxtConfig({
           rel: 'stylesheet',
           href: 'https://fonts.googleapis.com/css?family=Press+Start+2P',
         },
+        {
+          rel: 'icon',
+          href: '/favicon.ico',
+        },
+        {
+          rel: 'apple-touch-icon',
+          href: '/apple-touch-icon.png',
+          sizes: '180x180',
+        },
+        {
+          rel: 'mask-icon',
+          href: '/mask-icon.svg',
+          color: '#ffffff',
+        },
       ],
       meta: [
-        { name: 'viewport', content: 'width=device-width, user-scalable=no' },
+        { name: 'viewport', content: 'width=device-width,initial-scale=1' },
+        { name: 'description', content: 'Rogério Munhoz' },
+        { name: 'theme-color', content: '#ffffff' },
       ],
     },
   },
@@ -34,14 +50,49 @@ export default defineNuxtConfig({
     srcDir: '.',
     filename: 'service-worker.ts',
     strategies: 'injectManifest',
-    injectRegister: false,
-    manifest: false,
+    injectRegister: 'auto',
     registerType: 'autoUpdate',
     injectManifest: {
       injectionPoint: undefined,
     },
     devOptions: {
       enabled: true,
+      type: 'module',
+    },
+    manifest: {
+      name: 'Updates do Roz',
+      short_name: 'Updates',
+      icons: [
+        {
+          src: '/pwa-192x192.png',
+          sizes: '192x192',
+          type: 'image/png',
+          purpose: 'any',
+        },
+        {
+          src: '/pwa-512x512.png',
+          sizes: '512x512',
+          type: 'image/png',
+          purpose: 'any',
+        },
+        {
+          src: '/pwa-maskable-192x192.png',
+          sizes: '192x192',
+          type: 'image/png',
+          purpose: 'maskable',
+        },
+        {
+          src: '/pwa-maskable-512x512.png',
+          sizes: '512x512',
+          type: 'image/png',
+          purpose: 'maskable',
+        },
+      ],
+      start_url: '/updates',
+      display: 'standalone',
+      background_color: '#212529',
+      theme_color: '#212529',
+      description: 'Updates sobre o estado de saúde do Roz',
     },
   },
   devServer: {

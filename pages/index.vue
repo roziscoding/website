@@ -16,6 +16,14 @@ defineOgImageComponent('Regular', {
   description: bioCopies.pt,
   image: '/avatar.png',
 })
+
+useSeoMeta({
+  title: 'Rogério Munhoz',
+  ogTitle: 'Rogério Munhoz',
+  description: bio.value,
+  ogDescription: bio.value,
+  twitterCard: 'summary_large_image',
+})
 </script>
 
 <template>

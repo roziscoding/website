@@ -22,7 +22,7 @@ export interface Post {
 }
 
 function srtipPatterns(str: string, patterns: Array<RegExp | string>) {
-  return patterns.reduce((result, pattern) => (result as string).replace(pattern, ''), str)
+  return patterns.reduce((result, pattern) => (result as string).replace(pattern, ''), str) as string
 }
 
 export function enrichPost(post: Post) {
