@@ -55,6 +55,9 @@ export default defineNuxtConfig({
     filename: 'service-worker.ts',
     strategies: 'injectManifest',
     injectRegister: 'auto',
+    injectManifest: {
+      injectionPoint: undefined,
+    },
     registerType: 'autoUpdate',
     devOptions: {
       enabled: true,
