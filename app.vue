@@ -10,7 +10,6 @@ await likeStore.fetchLikes()
 
 <template>
   <div class="app-container">
-    <NuxtPwaManifest />
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>

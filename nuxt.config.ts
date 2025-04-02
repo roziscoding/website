@@ -64,6 +64,18 @@ export default defineNuxtConfig({
       type: 'module',
     },
     manifest: {
+      id: 'roz.ninja',
+      launch_handler: {
+        client_mode: 'auto',
+      },
+      orientation: 'portrait',
+      screenshots: [
+        {
+          src: '/screenshot_desktop.png',
+          sizes: '3600x2008',
+          type: 'image/png',
+        },
+      ],
       name: 'Updates do Roz',
       short_name: 'Updates',
       icons: [
