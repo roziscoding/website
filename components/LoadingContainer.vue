@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const props = withDefaults(defineProps<{
-  status: Ref<'pending' | 'idle' | 'error' | 'success'>
-  empty?: boolean,
+  status: 'pending' | 'idle' | 'error' | 'success'
+  empty?: boolean
   hasTitle?: boolean
   dark?: boolean
   rounded?: boolean
@@ -18,11 +18,15 @@ const isSuccess = computed(() => unref(props.status) === 'success')
 const containerClasses = computed(() => {
   const classes: string[] = []
 
-  if (props.dark) classes.push('is-dark')
-  if (props.rounded) classes.push('is-rounded')
-  if (props.hasTitle) classes.push('with-title')
+  if (props.dark)
+    classes.push('is-dark')
+  if (props.rounded)
+    classes.push('is-rounded')
+  if (props.hasTitle)
+    classes.push('with-title')
 
-  if (!isSuccess.value || props.empty) classes.push('nes-container', 'text-center')
+  if (!isSuccess.value || props.empty)
+    classes.push('nes-container', 'text-center')
 
   return classes
 })
