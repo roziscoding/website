@@ -49,6 +49,7 @@ export default defineNuxtConfig({
     'nuxt-og-image',
     '@pinia/nuxt',
     'pinia-plugin-persistedstate/nuxt',
+    '@nuxtjs/device',
   ],
   pwa: {
     srcDir: '.',
@@ -58,7 +59,7 @@ export default defineNuxtConfig({
     injectManifest: {
       injectionPoint: undefined,
     },
-    registerType: 'autoUpdate',
+    registerType: 'prompt',
     devOptions: {
       enabled: true,
       type: 'module',
@@ -73,5 +74,8 @@ export default defineNuxtConfig({
   },
   ogImage: {
     fonts: ['Press+Start+2P'],
+  },
+  experimental: {
+    emitRouteChunkError: false,
   },
 })

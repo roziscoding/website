@@ -11,6 +11,9 @@ const likeStore = useLikeStore()
 const serviceWorkerReady = ref(false)
 const route = useRoute()
 const highlightedPost = computed(() => route.hash?.replace('#', ''))
+const { isIos } = useDevice()
+const { $pwa } = useNuxtApp()
+const showPwaInstructions = ref(false)
 
 function scrollHighlightIntoView() {
   if (!highlightedPost.value)
@@ -65,7 +68,7 @@ channel.addEventListener('message', async (event) => {
   await doRefresh(true)
 })
 
-setInterval(doRefresh, 1000)
+onMounted(() => setInterval(doRefresh, 1000))
 
 // This function is needed because Chrome doesn't accept a base64 encoded string
 // as value for applicationServerKey in pushManager.subscribe yet
@@ -87,6 +90,13 @@ function urlBase64ToUint8Array(base64String: string) {
 
 const enableNotifications = useLocalStorage('enableNotifications', false)
 const notificationsButtonText = computed(() => `${enableNotifications.value ? 'Desativar' : 'Ativar'} Notificações`)
+const enableNotificationButton = computed(() => {
+  if (!isIos || $pwa?.isPWAInstalled) {
+    return serviceWorkerReady.value
+  }
+
+  return true
+})
 
 async function requestNotificationPermission() {
   if (Notification.permission === 'granted')
@@ -162,6 +172,11 @@ async function disablePush(subscription?: PushSubscription) {
 }
 
 async function toggleNotifications() {
+  if (isIos && !$pwa?.isPWAInstalled) {
+    showPwaInstructions.value = true
+    return
+  }
+
   const subscription = await getSubscription()
 
   if (enableNotifications.value) {
@@ -189,6 +204,7 @@ useSeoMeta({
 
 <template>
   <div class="my-container flex justify-center align-middle flex-col">
+    <PwaDialog id="pwa-dialog" v-model:visible="showPwaInstructions" />
     <header class="header mt-12">
       <h1 class="nes-text is-primary text-center py-4">
         Updates
@@ -205,8 +221,8 @@ useSeoMeta({
         <button
           type="button"
           class="nes-btn is-warning mt-4"
-          :class="{ 'is-disabled': !serviceWorkerReady }"
-          :disabled="!serviceWorkerReady"
+          :class="{ 'is-disabled': !enableNotificationButton }"
+          :disabled="!enableNotificationButton"
           :title="serviceWorkerReady ? undefined : 'Notificações não suportadas neste dispositivo'"
           @click="toggleNotifications"
         >
