@@ -1,4 +1,15 @@
 export const EMOJI_REGEX = /([\u2700-\u27BF\uE000-\uF8FF\u2011-\u26FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|\uD83E[\uDD10-\uDDFF])/g
+
+interface Image {
+  alt?: string
+  thumb: string
+  fullsize: string
+  aspectRatio: {
+    height: number
+    width: number
+  }
+}
+
 export interface Post {
   cid: string
   uri: string
@@ -7,16 +18,9 @@ export interface Post {
     text: string
   }
   embed?: {
+    images?: Image[]
     media: {
-      images: [{
-        alt?: string
-        thumb: string
-        fullsize: string
-        aspectRatio: {
-          height: number
-          width: number
-        }
-      }]
+      images: Image[]
     }
   }
 }

@@ -83,7 +83,7 @@ defineOgImageComponent('LargeText', {
         <span class="nes-text text-center is-warning">Carregando update...</span>
       </template>
 
-      <UpdateCard :post="post" />
+      <UpdateCard :post="post" shareable />
     </LoadingContainer>
     <div class="flex flex-row items-center gap-2">
       <button class="nes-btn" title="Primeiro Update" :class="!previousPost ? ['is-disabled', 'cursor-not-allowed'] : ['is-primary']" :disabled="!previousPost" @click="() => goToPost(firstPost)">

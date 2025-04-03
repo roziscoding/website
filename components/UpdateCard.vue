@@ -1,17 +1,18 @@
 <script setup lang="ts">
 import type { EnrichedPost } from '~/composables/posts'
-import { asyncComputed } from '@vueuse/core'
 import { useLikeStore } from '~/stores/likedPosts'
 
 const props = withDefaults(defineProps<{
   post: EnrichedPost
   rounded?: boolean
   title?: string
-  titleLink?: srting
+  titleLink?: string
   newTab?: boolean
+  shareable?: boolean
 }>(), {
   rounded: false,
   newTab: false,
+  shareable: false,
 })
 
 const images = computed(() => {
@@ -39,6 +40,7 @@ const likeStore = useLikeStore()
 const { likes } = storeToRefs(likeStore)
 const isLiked = computed(() => likeStore.isLiked(props.post.recordId))
 const postLikes = computed(() => likes.value[props.post.recordId] ?? 0)
+const postUrl = computed(() => `${window.location.origin}/updates/${props.post.recordId}`)
 
 async function toggleLike() {
   if (isLiked.value) {
@@ -46,6 +48,10 @@ async function toggleLike() {
   }
 
   await likeStore.like(props.post.recordId)
+}
+
+async function share() {
+  await navigator.share({ url: postUrl.value }).catch(() => {})
 }
 </script>
 
@@ -63,9 +69,14 @@ async function toggleLike() {
         </div>
       </template>
       {{ post.record.text }}
-      <button class="nes-btn flex flex-row items-center gap-4" @click="toggleLike">
-        <i class="nes-icon heart" :class="{ 'is-empty': !isLiked }" /> {{ postLikes }}
-      </button>
+      <div class="flex flex-row gap-4">
+        <button class="nes-btn flex flex-row items-center gap-4" @click="toggleLike">
+          <i class="nes-icon heart" :class="{ 'is-empty': !isLiked }" /> {{ postLikes }}
+        </button>
+        <button v-if="shareable" class="nes-btn is-primary flex flex-row items-center gap-4" @click="share">
+          <share-icon />
+        </button>
+      </div>
     </div>
   </article>
 </template>
