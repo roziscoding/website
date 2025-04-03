@@ -204,7 +204,7 @@ useSeoMeta({
 
 <template>
   <div class="my-container flex justify-center align-middle flex-col">
-    <PwaDialog id="pwa-dialog" v-model:visible="showPwaInstructions" />
+    <PWAInstructions id="pwa-dialog" v-model:visible="showPwaInstructions" />
     <header class="header mt-12">
       <h1 class="nes-text is-primary text-center py-4">
         Updates
