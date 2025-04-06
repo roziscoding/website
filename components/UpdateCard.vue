@@ -56,10 +56,10 @@ async function share() {
 </script>
 
 <template>
-  <article class="nes-container is-dark text-sm md:text-base" :class="articleClasses">
-    <component :is="titleLink ? 'a' : 'span'" v-if="title" :href="titleLink" class="title self-start" :target="newTab ? '_blank' : undefined">
+  <component :is="titleLink ? 'a' : 'article'" :href="titleLink" class="nes-container is-dark text-sm md:text-base hover:no-underline" :class="articleClasses">
+    <span v-if="title" class="title self-start" :target="newTab ? '_blank' : undefined">
       {{ title }}
-    </component>
+    </span>
     <div class="flex flex-col gap-4 items-center">
       <template v-if="images && images.length">
         <div class="flex flex-col md:flex-row gap-4">
@@ -78,5 +78,5 @@ async function share() {
         </button>
       </div>
     </div>
-  </article>
+  </component>
 </template>
