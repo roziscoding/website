@@ -24,6 +24,7 @@
     "@vite-pwa/nuxt": "0.10.8",
     "@vueuse/core": "^13.0.0",
     "concurrently": "9.1.2",
+    "inapp-spy": "^5.0.0",
     "nes.css": "^2.3.0",
     "nuxt": "^3.16.0",
     "nuxt-og-image": "5.1.1",

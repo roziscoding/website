@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import InAppSpy from 'inapp-spy'
 import { enrichPost, getTitle, usePosts } from '~/composables/posts'
 
 definePageMeta({
@@ -35,6 +36,7 @@ onMounted(() => {
       serviceWorkerReady.value = true
     })
   }
+  setInterval(doRefresh, 1000)
 })
 
 const { data: _posts, status, error, refresh } = await usePosts()
@@ -67,8 +69,6 @@ channel.addEventListener('message', async (event) => {
 
   await doRefresh(true)
 })
-
-onMounted(() => setInterval(doRefresh, 1000))
 
 // This function is needed because Chrome doesn't accept a base64 encoded string
 // as value for applicationServerKey in pushManager.subscribe yet
@@ -172,6 +172,12 @@ async function disablePush(subscription?: PushSubscription) {
 }
 
 async function toggleNotifications() {
+  const { isInApp } = InAppSpy()
+  if (isInApp) {
+    // eslint-disable-next-line no-alert
+    return alert('Parece que a página está aberta no navegor do instagram. As notificações não funcionam por aqui. Clica nos três pontinhos e abre no navegador do celular :)')
+  }
+
   if (isIos && !$pwa?.isPWAInstalled) {
     showPwaInstructions.value = true
     return
