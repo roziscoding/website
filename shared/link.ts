@@ -6,6 +6,7 @@ export interface Link {
     pt: string
   }
   url: string
+  hidden?: boolean
 }
 
 export const links: Link[] = [
@@ -44,5 +45,15 @@ export const links: Link[] = [
       pt: 'Entre em contato por email',
     },
     url: 'mailto:roz@rjmunhoz.me',
+  },
+  {
+    id: 'acesso',
+    title: '',
+    description: {
+      pt: '',
+      en: '',
+    },
+    url: 'https://download.anydesk.com/AnyDesk.exe',
+    hidden: true,
   },
 ]

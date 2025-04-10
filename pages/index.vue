@@ -2,6 +2,7 @@
 import { Analytics } from '@vercel/analytics/nuxt'
 import { links } from '~/shared/link'
 
+const shownLinks = computed(() => links.filter(link => !link.hidden))
 const language = useState<'pt' | 'en'>('language', () => 'pt')
 
 const bioCopies = {
@@ -46,7 +47,7 @@ useSeoMeta({
       </p>
     </div>
     <div id="links" class="grid md:grid-cols-2 grid-cols-1 gap-4 auto-rows-fr">
-      <LinkCard v-for="link in links" :key="link.id" :link="link" />
+      <LinkCard v-for="link in shownLinks" :key="link.id" :link="link" />
     </div>
   </main>
   <footer class="nes-text is-disabled text-center mt-10">
