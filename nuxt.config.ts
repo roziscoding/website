@@ -31,7 +31,6 @@ export default defineNuxtConfig({
   },
   modules: [
     '@nuxtjs/tailwindcss',
-    '@vite-pwa/nuxt',
     'nuxt-og-image',
     '@pinia/nuxt',
     'pinia-plugin-persistedstate/nuxt',
