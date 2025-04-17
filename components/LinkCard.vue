@@ -14,7 +14,7 @@ const language = useState<'pt' | 'en'>('language', () => 'pt')
 <template>
   <article class="h-full">
     <NesCard class="h-full">
-      <a class="h-full" :href="href" target="_blank">
+      <a class="h-full hover:no-underline hover:text-[#e5e7eb]" :href="href" target="_blank">
         <RandomColorText>
           <h3>{{ link.title }}</h3>
         </RandomColorText>

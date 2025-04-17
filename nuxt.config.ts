@@ -5,10 +5,6 @@ export default defineNuxtConfig({
     head: {
       link: [
         {
-          rel: 'manifest',
-          href: '/manifest.json',
-        },
-        {
           rel: 'stylesheet',
           href: 'https://unpkg.com/nes.css@2.3.0/css/nes.css',
         },
@@ -19,16 +15,6 @@ export default defineNuxtConfig({
         {
           rel: 'icon',
           href: '/favicon.ico',
-        },
-        {
-          rel: 'apple-touch-icon',
-          href: '/apple-touch-icon.png',
-          sizes: '180x180',
-        },
-        {
-          rel: 'mask-icon',
-          href: '/mask-icon.svg',
-          color: '#212529',
         },
       ],
       meta: [
@@ -51,27 +37,6 @@ export default defineNuxtConfig({
     'pinia-plugin-persistedstate/nuxt',
     '@nuxtjs/device',
   ],
-  pwa: {
-    srcDir: '.',
-    filename: 'service-worker.ts',
-    strategies: 'injectManifest',
-    injectRegister: 'auto',
-    injectManifest: {
-      injectionPoint: undefined,
-    },
-    registerType: 'prompt',
-    devOptions: {
-      enabled: true,
-      type: 'module',
-    },
-    manifest: false,
-  },
-  devServer: {
-    https: {
-      cert: './localhost.crt',
-      key: './localhost.key',
-    },
-  },
   ogImage: {
     fonts: ['Press+Start+2P'],
   },
